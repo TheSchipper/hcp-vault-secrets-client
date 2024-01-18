@@ -42,8 +42,8 @@ class HcpClient:
     - HCP_PROJECT_ID
     - HCP_ACCESS_TOKEN
     """
-    def __init__(self, local_config="config.ini"):
-        self.config = _read_config(local_config)
+    def __init__(self, config_path="config.ini"):
+        self.config = _read_config(config_path)
         self.organization_id = self.config['DEFAULT']['HCP_ORGANIZATION_ID'] or os.environ["HCP_ORGANIZATION_ID"]
         self.project_name = self.config['DEFAULT']['HCP_PROJECT_NAME'] or os.environ["HCP_PROJECT_NAME"]
         self.project_id = self.config['DEFAULT']['HCP_PROJECT_ID'] or os.environ["HCP_PROJECT_ID"]
