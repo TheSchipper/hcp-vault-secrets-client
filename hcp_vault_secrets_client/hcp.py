@@ -44,10 +44,10 @@ class HcpClient:
     """
     def __init__(self, config_path="config.ini"):
         self.config = _read_config(config_path)
-        self.organization_id = self.config['DEFAULT']['HCP_ORGANIZATION_ID'] or os.environ["HCP_ORGANIZATION_ID"]
-        self.project_name = self.config['DEFAULT']['HCP_PROJECT_NAME'] or os.environ["HCP_PROJECT_NAME"]
-        self.project_id = self.config['DEFAULT']['HCP_PROJECT_ID'] or os.environ["HCP_PROJECT_ID"]
-        self.access_token = self.config['SECRET']['HCP_ACCESS_TOKEN'] or os.environ["HCP_ACCESS_TOKEN"]
+        self.organization_id = os.getenv("HCP_ORGANIZATION_ID") or self.config['DEFAULT']['HCP_ORGANIZATION_ID']
+        self.project_name = os.environ["HCP_PROJECT_NAME"] or self.config['DEFAULT']['HCP_PROJECT_NAME']
+        self.project_id = os.environ["HCP_PROJECT_ID"] or self.config['DEFAULT']['HCP_PROJECT_ID']
+        self.access_token = os.environ["HCP_ACCESS_TOKEN"] or self.config['SECRET']['HCP_ACCESS_TOKEN']
         self.api_app_url = (f"{HCP_API_URL}/secrets/2023-06-13/organizations/{self.organization_id}/"
                             f"projects/{self.project_id}/apps/{self.project_name}")
         self.request_headers = {"Authorization": f"Bearer {self.access_token}"}

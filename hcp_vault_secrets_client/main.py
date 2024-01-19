@@ -14,11 +14,11 @@ def parse_args():
 def main(mode="read", name=None, value=None):
     client = HcpClient()
 
-    if mode == 'read':
+    if mode is 'read':
         return client.get_app_secret(name)
-    if mode == 'create':
+    if mode is 'create':
         return client.create_app_secret(name, value)
-    if mode == 'delete':
+    if mode is 'delete':
         return client.delete_app_secret(name)
 
 

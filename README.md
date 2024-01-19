@@ -6,18 +6,17 @@
 ![Static Badge](https://img.shields.io/badge/Python-3.12-blue)
 ![Static Badge](https://img.shields.io/badge/License-MIT-green)
 
-An API client to use the Hashi-Corp Vault secrets.
-
 https://portal.cloud.hashicorp.com/sign-in
+
+An API client to use the Hashi-Corp Vault secrets. This package expects that you've already created your account and set
+up a vault project.
 
 ### Installation
 Using pip
 ```bash
-pip install 
+pip install <package name>
 ```
-
 ### Usage
-
 Python Console
 ```python
 from hcp_vault_secrets_client.hcp import HcpClient
@@ -30,7 +29,6 @@ client.get_app_secret("MyNewSecret") # returns "HelloWorld"
 
 client.delete_app_secret("MyNewSecret")
 ```
-
 #### Environment Variables
 - HCP_ORGANIZATION_ID
 - HCP_PROJECT_NAME
