@@ -5,7 +5,7 @@ from hcp_vault_secrets_client.hcp import HcpClient
 from unittest.mock import patch
 
 
-def _set_env_vars():
+def _set_hcp_env_vars():
     os.environ["HCP_ORGANIZATION_ID"] = "ORG_ID"
     os.environ["HCP_PROJECT_NAME"] = "PROJECT_NAME"
     os.environ["HCP_PROJECT_ID"] = "PROJECT_ID"
@@ -15,7 +15,7 @@ def _set_env_vars():
 class TestHcpClient(unittest.TestCase):
 
     def setUp(self):
-        _set_env_vars()
+        _set_hcp_env_vars()
 
     @patch('requests.post')
     def test_create_app_secret(self, mock_post):
