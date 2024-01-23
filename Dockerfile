@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 ARG secret_name
-ARG secret_value=None
+ARG secret_value
 ARG mode=read
 
 ENV SECRET_NAME $secret_name
@@ -17,4 +17,4 @@ RUN apt-get update
 # Install Python packages
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["python"]
