@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hcp_vault_secrets_client"
+name = "hcp-vault-secrets-client"
 version = "0.0.1"
 authors = [
   { name="Sean Humes", email="107776081+TheSchipper@users.noreply.github.com" },
