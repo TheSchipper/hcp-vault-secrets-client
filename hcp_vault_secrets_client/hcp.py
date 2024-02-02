@@ -1,124 +1,67 @@
 import os
 import json
-import requests
-import configparser
+import logging
+import aiohttp
+
+from dotenv import load_dotenv
+from dataclasses import dataclass
 
 HCP_API_URL = "https://api.cloud.hashicorp.com"
+HCP_API_VERSION = "2023-06-13"
+
+logger = logging.getLogger(__name__)
 
 
-def _read_config(path):
-    """Reads the config file from the given path.
-
-       Args:
-        path (str): The path to the config file.
-
-       Returns:
-        ConfigParser: The ConfigParser instance with the loaded config.
-    """
-    parser = configparser.ConfigParser()
-    parser.read(path)
-    return parser
-
-
+@dataclass
 class HcpClient:
     """
-    Sets up the client with credentials loaded from environment variables.
-
-    Parameters:
-    - local_config : str, optional
-      Path to local config file. Defaults to "config.ini".
-
-    Attributes:
-    - organization_id (str): HCP organization ID
-    - project_name (str): HCP project name
-    - project_id (str): HCP project ID
-    - access_token (str): HCP API access token
-    - api_app_url (str): Base URL for the API application
-    - request_headers (dict): Headers for API requests, including auth token
-
-    Reads required HCP credentials from the following environment variables:
+    Sets up the client with credentials loaded from environment variables. Reads required HCP credentials from the
+    following environment variables:
     - HCP_ORGANIZATION_ID
     - HCP_PROJECT_NAME
     - HCP_PROJECT_ID
     - HCP_ACCESS_TOKEN
     """
+    def __init__(self):
+        load_dotenv()
+        self.organization_id = os.environ["HCP_ORGANIZATION_ID"]
+        self.project_name = os.environ["HCP_PROJECT_NAME"]
+        self.project_id = os.environ["HCP_PROJECT_ID"]
+        logger.debug("Initializing HCP client with the following config:")
+        logger.debug(f"organization_id: {self.organization_id}")
+        logger.debug(f"project_name: {self.project_name}")
+        logger.debug(f"project_id: {self.project_id}")
 
-    def __init__(self, config_path="config.ini"):
-        self.config = _read_config(config_path)
-        self.organization_id = os.environ["HCP_ORGANIZATION_ID"] or self.config['DEFAULT']['HCP_ORGANIZATION_ID']
-        self.project_name = os.environ["HCP_PROJECT_NAME"] or self.config['DEFAULT']['HCP_PROJECT_NAME']
-        self.project_id = os.environ["HCP_PROJECT_ID"] or self.config['DEFAULT']['HCP_PROJECT_ID']
-        self.access_token = os.environ["HCP_ACCESS_TOKEN"] or self.config['SECRET']['HCP_ACCESS_TOKEN']
-        self.api_app_url = (f"{HCP_API_URL}/secrets/2023-06-13/organizations/{self.organization_id}/"
-                            f"projects/{self.project_id}/apps/{self.project_name}")
-        self.request_headers = {"Authorization": f"Bearer {self.access_token}"}
-
-    def create_app_secret(self, secret_name, secret_value):
-        """Creates a new secret for the application.
-
-            Args:
-                secret_name (str): The name of the secret to create.
-                secret_value (str): The value of the secret to store.
-
-            Returns:
-                dict: The JSON response from the HCP API containing details of the
-                    newly created secret.
-
-            Raises:
-                requests.exceptions.HTTPError: If the request results in an HTTP error.
-        """
-        url = (f"{HCP_API_URL}/secrets/2023-06-13/organizations/{self.organization_id}/"
+    async def create_app_secret(self, session: aiohttp.ClientSession, secret_name: str, secret_value: str) -> str:
+        """Creates a secret in a vault app."""
+        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
                f"projects/{self.project_id}/apps/{self.project_name}/kv")
+        headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
         body = {"name": secret_name, "value": secret_value}
-        resp = requests.post(url, headers=self.request_headers, data=json.dumps(body))
-        resp.raise_for_status()
-        return resp.json()['secret']
+        logger.debug(f"Creating secret {secret_name} with value {secret_value}")
+        async with session.post(url, headers=headers, data=json.dumps(body)) as resp:
+            resp_json = await resp.json()
+            logger.debug(f"Response from HCP API: {resp_json}")
+            return resp_json['secret']
 
-    def get_app_secret(self, secret_name):
-        """Gets a secret value for the application.
-
-          Args:
-            secret_name (str): The name of the secret to retrieve.
-
-          Returns:
-            dict: The JSON response from the HCP API containing the secret value.
-
-          Raises:
-            requests.exceptions.HTTPError: If the request results in an HTTP error.
-        """
-        url = (f"{HCP_API_URL}/secrets/2023-06-13/organizations/{self.organization_id}/"
+    async def get_app_secret(self, session: aiohttp.ClientSession, secret_name: str) -> str:
+        """Gets a secret value from a vault app."""
+        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
                f"projects/{self.project_id}/apps/{self.project_name}/open/{secret_name}")
-        resp = requests.get(url, headers=self.request_headers)
-        resp.raise_for_status()
-        return resp.json()['secret']['version']['value']
+        headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
+        logger.debug(f"Getting secret {secret_name}")
+        async with session.get(url, headers=headers) as resp:
+            resp_json = await resp.json()
+            logger.debug(f"Response from HCP API: {resp_json}")
+            return resp_json['secret']['version']['value']
 
-    def delete_app_secret(self, secret_name):
-        """Deletes a secret for the application.
-
-          Args:
-            secret_name (str): The name of the secret to delete.
-
-          Returns:
-            dict: The JSON response from the HCP API confirming deletion.
-
-          Raises:
-            requests.exceptions.HTTPError: If the request results in an HTTP error.
-        """
-        url = (f"{HCP_API_URL}/secrets/2023-06-13/organizations/{self.organization_id}/"
+    async def delete_app_secret(self, session: aiohttp.ClientSession, secret_name: str) -> str:
+        """Deletes a secret from a vault app."""
+        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
                f"projects/{self.project_id}/apps/{self.project_name}/secrets/{secret_name}")
-        resp = requests.delete(url, headers=self.request_headers)
-        resp.raise_for_status()
-        return resp.json()
-
-    def get_app(self):
-        """Gets details about the configured application.
-
-          Returns:
-            dict: The JSON response from the HCP API containing application details.
-
-          Raises:
-            requests.exceptions.HTTPError: If the request results in an HTTP error.
-        """
-        resp = requests.get(self.api_app_url, headers=self.request_headers)
-        resp.raise_for_status()
-        return resp.json()
+        headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
+        logger.debug(f"Deleting secret {secret_name}")
+        async with session.delete(url, headers=headers) as resp:
+            resp_json = await resp.json()
+            logger.debug(f"Response from HCP API: {resp_json}")
+            return resp_json
