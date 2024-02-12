@@ -7,6 +7,6 @@ COPY . /hcp-vault-secrets-client
 RUN apt-get update
 
 # Install Python packages
-RUN pip install .
+RUN pip install . .[test]
 
 ENTRYPOINT ["python"]

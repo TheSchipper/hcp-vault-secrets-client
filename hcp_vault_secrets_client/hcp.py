@@ -3,8 +3,8 @@ import logging
 import os
 import json
 
-from dotenv import load_dotenv
 from dataclasses import dataclass
+from dotenv import load_dotenv
 
 HCP_API_BASE_URL = "https://api.cloud.hashicorp.com"
 HCP_API_VERSION = "2023-06-13"
