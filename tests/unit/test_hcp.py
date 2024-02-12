@@ -1,15 +1,17 @@
-import os
-import unittest
 import json
+import logging
+import os
 import pytest
+import unittest
 
 from hcp_vault_secrets_client.hcp import HcpClient
-from unittest.mock import Mock
+from unittest import IsolatedAsyncioTestCase
+from unittest.mock import patch
 
-HASHICORP_URL = "https://api.cloud.hashicorp.com/secrets/2023-06-13/organizations"
+logger = logging.getLogger(__name__)
 
 
-def _set_hcp_env_vars():
+def _set_mock_vars():
     os.environ["HCP_ORGANIZATION_ID"] = "ORG_ID"
     os.environ["HCP_PROJECT_NAME"] = "PROJECT_NAME"
     os.environ["HCP_PROJECT_ID"] = "PROJECT_ID"
@@ -30,84 +32,45 @@ class MockResponse:
     async def __aenter__(self):
         return self
 
+    async def json(self):
+        return json.loads(self._text)
 
-class TestHcpClient(unittest.TestCase):
+
+class HcpClientTests(IsolatedAsyncioTestCase):
 
     def setUp(self):
-        _set_hcp_env_vars()
+        _set_mock_vars()
 
-    @pytest.mark.asyncio
-    @Mock()
-    async def test_create_app_secret(self, mocker):
+    @patch('aiohttp.ClientSession')
+    async def test_a_create_app_secret(self, mock_session):
+        pytest.logger.info("Starting test_a_create_app_secret")
         # Arrange
-        data = {'id': 'secret123',
-                'name': 'mysecret',
-                'secret': 'mocked value'}
-        resp = MockResponse(json.dumps(data), 200)
-
+        expected = {"id": "unit_test_secret"}
+        mock_session.post.return_value = MockResponse('{"secret":{"id":"unit_test_secret"}}', 200)
         # Act
-        async with mocker.patch('aiohttp.ClientSession.post', return_value=resp) as mocker:
-            resp_dict = await HcpClient().create_app_secret(mocker, "test_secret", "test_value")
-
+        actual = await HcpClient().create_app_secret(mock_session, "unit_test_secret", "abc123")
         # Assert
-        print(resp_dict)
-        mocker.assert_called_with(
-            f'{HASHICORP_URL}/ORG_ID/projects/PROJECT_ID/apps'
-            '/PROJECT_NAME/kv',
-            headers={'Authorization': 'Bearer ACCESS_TOKEN'},
-            data='{"name": "mysecret", "value": "secretvalue"}'
-        )
+        assert actual == expected
 
-    @pytest.mark.asyncio
-    @Mock()
-    async def test_get_app_secret(self, mocker):
+    @patch('aiohttp.ClientSession')
+    async def test_b_get_app_secret(self, mock_session):
+        pytest.logger.info("Starting test_b_get_app_secret")
+        expected = "abc123"
+        mock_session.get.return_value = MockResponse('{"secret":{"version":{"value": "abc123"}}}', 200)
+        actual = await HcpClient().get_app_secret(mock_session, "unit_test_secret")
+        assert actual == expected
+
+    @patch('aiohttp.ClientSession')
+    async def test_c_delete_app_secret(self, mock_session):
+        pytest.logger.info("Starting test_c_delete_app_secret")
         # Arrange
-        data = {'id': 'secret123',
-                'name': 'mysecret',
-                'secret': {
-                    'version': {
-                        'value': 'mocked value'
-                    }
-                }}
-        resp = MockResponse(json.dumps(data), 200)
-
+        expected = {}
+        mock_session.delete.return_value = MockResponse('{}', 200)
         # Act
-        async with mocker.patch('aiohttp.ClientSession.post', return_value=resp) as mocker:
-            mock_secret = await HcpClient().get_app_secret(mocker, "test_secret")
-
+        actual = await HcpClient().delete_app_secret(mock_session, "unit_test_secret")
         # Assert
-        print(mock_secret)
-        mocker.assert_called_with(
-            f'{HASHICORP_URL}/ORG_ID/projects/PROJECT_ID/apps'
-            '/PROJECT_NAME/open/mysecret',
-            headers={'Authorization': 'Bearer ACCESS_TOKEN'}
-        )
-        assert mock_secret == 'mocked value'
+        assert actual == expected
 
 
-    @pytest.mark.asyncio
-    @Mock()
-    async def test_get_app_secret_version(self, mocker):
-        # Arrange
-        data = {
-            'id': 'secret123',
-            'name': 'mysecret',
-            'secret': 'mocked value'
-        }
-        resp = MockResponse(json.dumps(data), 200)
-
-        # Act
-        async with mocker.patch('aiohttp.ClientSession.post', return_value=resp) as mocker:
-            dict_resp = await HcpClient().get_app_secret(mocker, "test_secret")
-
-        # Assert
-        print(dict_resp)
-        mocker.assert_called_with(
-            f'{HASHICORP_URL}/ORG_ID/projects/PROJECT_ID/apps'
-            '/PROJECT_NAME/secrets/mysecret',
-            headers={'Authorization': 'Bearer ACCESS_TOKEN'}
-        )
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

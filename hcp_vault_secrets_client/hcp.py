@@ -1,13 +1,14 @@
+import aiohttp
+import logging
 import os
 import json
-import logging
-import aiohttp
 
 from dotenv import load_dotenv
 from dataclasses import dataclass
 
-HCP_API_URL = "https://api.cloud.hashicorp.com"
+HCP_API_BASE_URL = "https://api.cloud.hashicorp.com"
 HCP_API_VERSION = "2023-06-13"
+HCP_URL = f"{HCP_API_BASE_URL}/secrets/{HCP_API_VERSION}/organizations"
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +35,7 @@ class HcpClient:
 
     async def create_app_secret(self, session: aiohttp.ClientSession, secret_name: str, secret_value: str) -> str:
         """Creates a secret in a vault app."""
-        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
-               f"projects/{self.project_id}/apps/{self.project_name}/kv")
+        url = f"{HCP_URL}/{self.organization_id}/projects/{self.project_id}/apps/{self.project_name}/kv"
         headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
         body = {"name": secret_name, "value": secret_value}
         logger.debug(f"Creating secret {secret_name} with value {secret_value}")
@@ -46,8 +46,8 @@ class HcpClient:
 
     async def get_app_secret(self, session: aiohttp.ClientSession, secret_name: str) -> str:
         """Gets a secret value from a vault app."""
-        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
-               f"projects/{self.project_id}/apps/{self.project_name}/open/{secret_name}")
+        url = (f"{HCP_URL}/{self.organization_id}/projects/{self.project_id}/"
+               f"apps/{self.project_name}/open/{secret_name}")
         headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
         logger.debug(f"Getting secret {secret_name}")
         async with session.get(url, headers=headers) as resp:
@@ -57,8 +57,8 @@ class HcpClient:
 
     async def delete_app_secret(self, session: aiohttp.ClientSession, secret_name: str) -> str:
         """Deletes a secret from a vault app."""
-        url = (f"{HCP_API_URL}/secrets/{HCP_API_VERSION}/organizations/{self.organization_id}/"
-               f"projects/{self.project_id}/apps/{self.project_name}/secrets/{secret_name}")
+        url = (f"{HCP_URL}/{self.organization_id}/projects/{self.project_id}/"
+               f"apps/{self.project_name}/secrets/{secret_name}")
         headers = {"Authorization": f"Bearer {os.environ['HCP_ACCESS_TOKEN']}"}
         logger.debug(f"Deleting secret {secret_name}")
         async with session.delete(url, headers=headers) as resp:
