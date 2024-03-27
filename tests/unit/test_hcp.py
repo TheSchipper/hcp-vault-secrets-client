@@ -42,7 +42,7 @@ class HcpClientTests(IsolatedAsyncioTestCase):
         _set_mock_vars()
 
     @patch('aiohttp.ClientSession')
-    async def test_a_create_app_secret(self, mock_session):
+    async def test_create_app_secret(self, mock_session):
         pytest.logger.info("Starting test_a_create_app_secret")
         # Arrange
         expected = {"id": "unit_test_secret"}
@@ -53,15 +53,18 @@ class HcpClientTests(IsolatedAsyncioTestCase):
         assert actual == expected
 
     @patch('aiohttp.ClientSession')
-    async def test_b_get_app_secret(self, mock_session):
+    async def test_get_app_secret(self, mock_session):
         pytest.logger.info("Starting test_b_get_app_secret")
+        # Arrange
         expected = "abc123"
         mock_session.get.return_value = MockResponse('{"secret":{"version":{"value": "abc123"}}}', 200)
+        # Act
         actual = await HcpClient().get_app_secret(mock_session, "unit_test_secret")
+        # Assert
         assert actual == expected
 
     @patch('aiohttp.ClientSession')
-    async def test_c_delete_app_secret(self, mock_session):
+    async def test_delete_app_secret(self, mock_session):
         pytest.logger.info("Starting test_c_delete_app_secret")
         # Arrange
         expected = {}
