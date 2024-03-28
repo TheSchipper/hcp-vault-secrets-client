@@ -43,6 +43,11 @@ jobs:
           pytest --cov=${PWD}/hcp_vault_secrets_client --cov-report xml:coverage.xml tests/unit
           cat coverage.xml
 
+      - name: fix code coverage paths
+        run: |
+          sed -i 's/\/home\/runner\/work\//\/github\/workspace\//g' coverage.xml
+          cat coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
