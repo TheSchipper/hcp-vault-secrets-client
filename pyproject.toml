@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hcp-vault-secrets-client"
+version = "0.0.1"
+authors = [
+  { name="Sean Humes", email="107776081+TheSchipper@users.noreply.github.com" },
+]
+description = "API client for HCP Vault Secrets"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE.txt" }
+keywords = ["HashiCorp", "vault", "secrets", "api", "client"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "aiohttp>=3.9.3"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6.2.5",
+    "pytest-cov>=5.0.0"
+]
