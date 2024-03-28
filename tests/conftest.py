@@ -3,6 +3,7 @@ pytest configuration file.
 """
 import logging
 import logging.config
+
 import pytest
 
 

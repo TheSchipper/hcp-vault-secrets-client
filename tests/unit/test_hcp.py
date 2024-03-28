@@ -1,3 +1,6 @@
+"""
+Unit tests for the HCP client.
+"""
 import json
 import logging
 import os
@@ -44,10 +47,12 @@ class MockResponse:
 
 class HcpClientTests(IsolatedAsyncioTestCase):
     def setUp(self):
+        """Set up test environment"""
         _set_mock_vars()
 
     @patch("aiohttp.ClientSession")
     async def test_create_app_secret(self, mock_session):
+        """Unit test for create_app_secret"""
         pytest.logger.info("Starting test_a_create_app_secret")
         # Arrange
         expected = {"id": "unit_test_secret"}
@@ -63,6 +68,7 @@ class HcpClientTests(IsolatedAsyncioTestCase):
 
     @patch("aiohttp.ClientSession")
     async def test_get_app_secret(self, mock_session):
+        """Unit test for get_app_secret"""
         pytest.logger.info("Starting test_b_get_app_secret")
         # Arrange
         expected = "abc123"
@@ -76,6 +82,7 @@ class HcpClientTests(IsolatedAsyncioTestCase):
 
     @patch("aiohttp.ClientSession")
     async def test_delete_app_secret(self, mock_session):
+        """Unit test for delete_app_secret"""
         pytest.logger.info("Starting test_c_delete_app_secret")
         # Arrange
         expected = {}

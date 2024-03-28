@@ -1,9 +1,10 @@
 """
 This example shows how to create a secret in HCP Vault.
 """
-import asyncio
-import aiohttp
 
+import asyncio
+
+import aiohttp
 from hcp_vault_secrets_client.hcp import HcpClient
 
 
