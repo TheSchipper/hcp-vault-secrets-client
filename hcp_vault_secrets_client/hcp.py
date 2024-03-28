@@ -1,6 +1,7 @@
 """
 This module contains the code for the HCP client.
 """
+
 import json
 import logging
 import os

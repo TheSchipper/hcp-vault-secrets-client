@@ -1,6 +1,7 @@
 """
 Unit tests for the HCP client.
 """
+
 import json
 import logging
 import os
@@ -10,7 +11,6 @@ from unittest.mock import patch
 
 import pytest
 from hcp_vault_secrets_client.hcp import HcpClient
-
 
 logger = logging.getLogger(__name__)
 
