@@ -7,6 +7,6 @@ COPY . /hcp-vault-secrets-client
 RUN apt-get update
 
 # Install Python packages
-RUN pip install . .[test]
+RUN pip install --no-cache-dir . .[test]
 
 ENTRYPOINT ["/bin/bash"]

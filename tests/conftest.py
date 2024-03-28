@@ -1,6 +1,9 @@
-import pytest
+"""
+pytest configuration file.
+"""
 import logging
 import logging.config
+import pytest
 
 
 LOGGING_CONFIG = {
@@ -44,5 +47,7 @@ LOGGING_CONFIG = {
 
 
 def pytest_configure(config):
+    """Pytest configuration hook."""
     logging.config.dictConfig(LOGGING_CONFIG)
     pytest.logger = logging.getLogger()
+    pytest.logger.debug(config)
