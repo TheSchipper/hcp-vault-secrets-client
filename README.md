@@ -3,48 +3,23 @@
 </p>
 <h2 align="center">Hashi-Corp Vault Secrets Manager</h2>
 
-![Static Badge](https://img.shields.io/badge/Python-3.12-blue)
+![Static Badge](https://img.shields.io/badge/Python-3.10-blue)
 ![Static Badge](https://img.shields.io/badge/License-MIT-green)
+[![Super-Linter](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/ci_workflow/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 https://portal.cloud.hashicorp.com/sign-in
 
 An API client to use the Hashi-Corp Vault secrets. This package expects that you've already created your account and set
-up a vault project.
+up a vault project. For more information, please follow Hashi-Corp's [documentation](https://developer.hashicorp.com/vault/tutorials/hcp-vault-secrets-get-started).
 
 ### Installation
 Using pip
 ```bash
-pip install <package name>
+pip install hcp-vault-secrets-client
 ```
-### Usage
-Python Console
-```python
-from hcp_vault_secrets_client.hcp import HcpClient
 
-client = HcpClient() # override where the ini file is localed with config_path
-
-client.create_app_secret("MyNewSecret", "HelloWorld")
-
-client.get_app_secret("MyNewSecret") # returns "HelloWorld"
-
-client.delete_app_secret("MyNewSecret")
-```
 #### Environment Variables
 - HCP_ORGANIZATION_ID
 - HCP_PROJECT_NAME
 - HCP_PROJECT_ID
 - HCP_ACCESS_TOKEN
-
-#### INI Configuration
-```text
-[DEFAULT]
-HCP_ORGANIZATION_ID=
-HCP_PROJECT_ID=
-HCP_PROJECT_NAME=
-
-[SECRET]
-HCP_ACCESS_TOKEN=
-```
-
-### Contributing
-Please review the contributing guidelines if you would like to add to this project!
