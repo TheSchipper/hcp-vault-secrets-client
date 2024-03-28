@@ -41,6 +41,7 @@ jobs:
       - name: Tests
         run: |
           pytest --cov=${PWD}/hcp_vault_secrets_client --cov-report xml:coverage.xml tests/unit
+          cat coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
