@@ -9,4 +9,4 @@ RUN apt-get update
 # Install Python packages
 RUN pip install . .[test]
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["/bin/bash"]
