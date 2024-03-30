@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3
 
 #ENV PIP_TOOLS_VERSION 7.4.1
 
@@ -7,6 +7,11 @@ WORKDIR /hcp-vault-secrets-client
 COPY . /hcp-vault-secrets-client
 
 RUN apt-get update
+
+# Create virtual environment
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Upgrade pip to the latest version
 RUN python -m pip install --no-cache-dir --upgrade pip==24.0
