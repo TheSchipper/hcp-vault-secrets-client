@@ -5,7 +5,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Python-3.10-blue)
 ![Static Badge](https://img.shields.io/badge/License-MIT-green)
-![workflow](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/CI.yml/badge.svg)
+![workflow](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/ci.yml/badge.svg)
 
 https://portal.cloud.hashicorp.com/sign-in
 
