@@ -1,0 +1,46 @@
+name: SonarCloud
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, initial]
+  pull_request:
+    branches: [main, initial]
+
+jobs:
+  workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Build
+        run: |
+          python -m pip install --upgrade pip
+          pip install --no-cache-dir pip-tools==7.4.1
+          pip install --no-cache-dir -e .
+          pip install --no-cache-dir -r requirements-dev.txt
+
+      - name: Generate Coverage Report
+        run: |
+          pytest --cov=${PWD}/src --cov-report xml:coverage.xml tests/unit
+          cat coverage.xml
+
+      - name: Fix Coverage Report Paths
+        run: |
+          sed -i 's/\/home\/runner\/work\/hcp-vault-secrets-client\/hcp-vault-secrets-client\//\/github\/workspace\//g' coverage.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
