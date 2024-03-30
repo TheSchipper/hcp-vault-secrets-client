@@ -31,13 +31,13 @@ LOGGING_CONFIG = {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "INFO",
             "formatter": "simple",
-            "filename": "logs/unit_test.log",
+            "filename": "unit_test.log",
         },
         "log_file_detailed": {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "detailed",
-            "filename": "logs/unit_test_detailed.log",
+            "filename": "unit_test_detailed.log",
         },
     },
     "loggers": {
