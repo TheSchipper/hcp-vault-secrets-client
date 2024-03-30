@@ -41,7 +41,8 @@ jobs:
 
       - name: Tests
         run: |
-          pytest --cov=${PWD}/src --cov-report xml:coverage.xml tests/unit
+          pytest --cov=${PWD}/src/hcp_vault_secrets_client --cov-report xml:coverage.xml tests/unit
+          cat coverage.xml
 
       - name: fix code coverage paths
         run: |
