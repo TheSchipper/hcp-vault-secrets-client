@@ -1,4 +1,4 @@
-name: ci_workflow
+name: CI
 
 on:
   workflow_dispatch:
@@ -41,19 +41,13 @@ jobs:
       - name: Tests
         run: |
           pytest --cov=${PWD}/hcp_vault_secrets_client --cov-report xml:coverage.xml tests/unit
-          cat coverage.xml
 
       - name: fix code coverage paths
         run: |
           sed -i 's/\/home\/runner\/work\/hcp-vault-secrets-client\/hcp-vault-secrets-client\//\/github\/workspace\//g' coverage.xml
-          cat coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Publish
-        run: |
-          echo "Publish"

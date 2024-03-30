@@ -12,13 +12,8 @@ LOGGING_CONFIG = {
     "disable_existing_loggers": False,
     "filters": {},
     "formatters": {
-        "simple": {
-            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        },
-        "detailed": {
-            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            "datefmt": "%Y-%m-%dT%H:%M:%S%z",
-        },
+        "simple": {"()": "json_log_formatter.JSONFormatter"},
+        "detailed": {"()": "json_log_formatter.VerboseJSONFormatter"},
     },
     "handlers": {
         "stdout": {
@@ -34,15 +29,19 @@ LOGGING_CONFIG = {
         },
         "log_file": {
             "class": "logging.handlers.RotatingFileHandler",
+            "level": "INFO",
+            "formatter": "simple",
+            "filename": "logs/unit_test.log",
+        },
+        "log_file_detailed": {
+            "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "detailed",
-            "filename": "test_loggers.log",
-            "maxBytes": 10000000,
-            "backupCount": 10,
+            "filename": "logs/unit_test_detailed.log",
         },
     },
     "loggers": {
-        "root": {"level": "DEBUG", "handlers": ["stderr", "stdout", "log_file"]},
+        "root": {"level": "DEBUG", "handlers": ["stderr", "stdout", "log_file", "log_file_detailed"]},
     },
 }
 

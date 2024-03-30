@@ -1,11 +1,11 @@
 <p align="center">
 <img src="banner.png">
 </p>
-<h2 align="center">Hashi-Corp Vault Secrets Manager</h2>
+<h2 align="center">Hashi-Corp Vault Secrets Client</h2>
 
 ![Static Badge](https://img.shields.io/badge/Python-3.10-blue)
 ![Static Badge](https://img.shields.io/badge/License-MIT-green)
-[![Super-Linter](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/ci_workflow/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![workflow](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/CI.yml/badge.svg)
 
 https://portal.cloud.hashicorp.com/sign-in
 
