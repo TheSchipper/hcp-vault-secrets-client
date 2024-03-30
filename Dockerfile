@@ -14,6 +14,8 @@ RUN python -m pip install --no-cache-dir --upgrade pip==24.0
 # Install pip-tools as the package manager and dev dependencies
 RUN pip install --no-cache-dir pip-tools==7.4.1
 
+RUN pip install --no-cache-dir -e .
+
 RUN pip install --no-cache-dir -r requirements-dev.txt
 
 ENTRYPOINT ["/bin/bash"]
