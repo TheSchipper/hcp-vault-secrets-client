@@ -41,7 +41,10 @@ LOGGING_CONFIG = {
         },
     },
     "loggers": {
-        "root": {"level": "DEBUG", "handlers": ["stderr", "stdout", "log_file", "log_file_detailed"]},
+        "root": {
+            "level": "DEBUG",
+            "handlers": ["stderr", "stdout", "log_file", "log_file_detailed"],
+        },
     },
 }
 

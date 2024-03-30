@@ -34,7 +34,6 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-adopts = "--cov=hcp_vault_secrets_client --cov-report=xml:coverage.xml"
 testpaths = [
     "tests/unit"
 ]

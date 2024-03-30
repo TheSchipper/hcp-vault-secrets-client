@@ -9,7 +9,7 @@ COPY . /hcp-vault-secrets-client
 RUN apt-get update
 
 # Upgrade pip to the latest version
-RUN python -m pip install --upgrade pip
+RUN python -m pip install --no-cache-dir --upgrade pip==24.0
 
 # Install pip-tools as the package manager and dev dependencies
 RUN pip install --no-cache-dir pip-tools==7.4.1
