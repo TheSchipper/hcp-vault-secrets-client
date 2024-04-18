@@ -49,6 +49,7 @@ jobs:
           sed -i 's/===========/===/g' $PWD/docs/source/src.rst
           sed -i 's/tests package/tests/g' $PWD/docs/source/tests.rst
           sed -i 's/=============/=====/g' $PWD/docs/source/tests.rst
+          cat $PWD/docs/source/src.rst
           sphinx-build $PWD/docs/source $PWD/docs/build
 
       - name: Setup Pages

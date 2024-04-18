@@ -22,10 +22,10 @@ class HcpClient:
     """
     Sets up the client with credentials loaded from environment variables. Reads required HCP credentials from the
     following environment variables:
-    - HCP_ORGANIZATION_ID
-    - HCP_PROJECT_NAME
-    - HCP_PROJECT_ID
-    - HCP_ACCESS_TOKEN
+    * HCP_ORGANIZATION_ID
+    * HCP_PROJECT_NAME
+    * HCP_PROJECT_ID
+    * HCP_ACCESS_TOKEN
     """
 
     def __init__(self):
