@@ -38,13 +38,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Build docs
         run: |
           export PYTHONPATH=$PWD/src:$PYTHONPATH
           touch src/__init__.py
-          sphinx-apidoc -o docs/source $PWD
+          sphinx-apidoc -o $PWD/docs/source $PWD
           sphinx-build $PWD/docs/source $PWD/docs/build
           sphinx-build $PWD/docs/source $PWD/docs/build
 
