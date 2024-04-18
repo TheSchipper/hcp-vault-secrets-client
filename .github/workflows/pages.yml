@@ -47,10 +47,12 @@ jobs:
           sphinx-apidoc -o $PWD/docs/source $PWD
           sphinx-build $PWD/docs/source $PWD/docs/build
 
-      - name: Fix Coverage Report Paths
+      - name: Fix directory titles
         run: |
-          sed -i 's/src package\n===========/src\n===/g' $PWD/docs/source/src.rst
-          sed -i 's/tests package\n=============/tests\n=====/g' $PWD/docs/source/tests.rst
+          sed -i 's/src package/src/g' $PWD/docs/source/src.rst
+          sed -i 's/===========/===/g' $PWD/docs/source/src.rst
+          sed -i 's/tests package/tests/g' $PWD/docs/source/tests.rst
+          sed -i 's/=============/=====/g' $PWD/docs/source/tests.rst
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
