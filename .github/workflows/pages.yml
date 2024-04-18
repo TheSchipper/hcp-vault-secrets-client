@@ -45,16 +45,11 @@ jobs:
           export PYTHONPATH=$PWD/src:$PYTHONPATH
           touch src/__init__.py
           sphinx-apidoc -o $PWD/docs/source $PWD
-          sphinx-build $PWD/docs/source $PWD/docs/build
-
-      - name: Fix directory titles
-        run: |
           sed -i 's/src package/src/g' $PWD/docs/source/src.rst
           sed -i 's/===========/===/g' $PWD/docs/source/src.rst
           sed -i 's/tests package/tests/g' $PWD/docs/source/tests.rst
           sed -i 's/=============/=====/g' $PWD/docs/source/tests.rst
-          cat $PWD/docs/source/src.rst
-          cat $PWD/docs/source/tests.rst
+          sphinx-build $PWD/docs/source $PWD/docs/build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
