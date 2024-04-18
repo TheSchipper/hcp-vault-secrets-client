@@ -39,8 +39,9 @@ jobs:
       - name: Build docs
         run: |
           export PYTHONPATH=$PWD/src:$PYTHONPATH
-          sphinx-apidoc -o docs/source .
-          sphinx-build docs/source docs/build
+          touch src/__init__.py
+          sphinx-apidoc -o docs/source $PWD
+          sphinx-build $PWD/docs/source $PWD/docs/build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
