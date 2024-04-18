@@ -53,6 +53,8 @@ jobs:
           sed -i 's/===========/===/g' $PWD/docs/source/src.rst
           sed -i 's/tests package/tests/g' $PWD/docs/source/tests.rst
           sed -i 's/=============/=====/g' $PWD/docs/source/tests.rst
+          cat $PWD/docs/source/src.rst
+          cat $PWD/docs/source/tests.rst
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
