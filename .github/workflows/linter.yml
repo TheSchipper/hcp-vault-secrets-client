@@ -32,3 +32,4 @@ jobs:
           VALIDATE_MARKDOWN: false
           VALIDATE_GITHUB_ACTIONS: false
           VALIDATE_PYTHON_PYLINT: false
+          FILTER_REGEX_EXCLUDE: .*docs/.*
