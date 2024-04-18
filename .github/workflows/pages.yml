@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy Sphinx Documentation
 
 on:
   # Runs on pushes targeting the default branch
@@ -46,7 +46,11 @@ jobs:
           touch src/__init__.py
           sphinx-apidoc -o $PWD/docs/source $PWD
           sphinx-build $PWD/docs/source $PWD/docs/build
-          sphinx-build $PWD/docs/source $PWD/docs/build
+
+      - name: Fix Coverage Report Paths
+        run: |
+          sed -i 's/src package\n===========/src\n===/g' $PWD/docs/source/src.rst
+          sed -i 's/tests package\n=============/tests\n=====/g' $PWD/docs/source/tests.rst
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
