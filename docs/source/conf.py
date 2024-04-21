@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'hcp-vault-secrets-client'
-copyright = '2024, Sean Humes'
+#copyright = '2024, Sean Humes'
 author = 'Sean Humes'
 release = '0.0.1'
 
@@ -15,7 +15,6 @@ release = '0.0.1'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.duration",
     "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
@@ -26,6 +25,9 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = []
 
+# Automatically extract typehints when specified and place them in
+# descriptions of the relevant function/method.
+autodoc_typehints = "description"
 
 
 # -- Options for HTML output -------------------------------------------------

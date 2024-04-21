@@ -10,6 +10,7 @@ Welcome to hcp-vault-secrets-client's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   contributing
    modules
 
 Indices and tables

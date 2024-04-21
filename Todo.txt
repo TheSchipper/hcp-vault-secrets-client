@@ -1,0 +1,10 @@
+* Add CD workflow
+* Add entrypoint for dockerfile
+* Generate new requirements.in files
+* Add pre-commit hooks for mypy, flake8, isort, black (and a version checker?)
+* Remove extra linter rules
+* sonarcloud PR scan
+* finish contributing guide
+* look into dependabot more
+
+

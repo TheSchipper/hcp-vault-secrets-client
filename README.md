@@ -15,8 +15,9 @@
 
 https://portal.cloud.hashicorp.com/sign-in
 
-An API client to use the Hashi-Corp Vault secrets. This package expects that you've already created your account and set
-up a vault project. For more information, please follow Hashi-Corp's [documentation](https://developer.hashicorp.com/vault/tutorials/hcp-vault-secrets-get-started).
+A python API client to interact with [HashiCorp Cloud Platform (HCP) Vault Secrets](https://developer.hashicorp.com/hcp/docs/vault-secrets). This
+package expects that you've already created your account and set up a vault project. For more information, please follow
+Hashi-Corp's [documentation](https://developer.hashicorp.com/vault/tutorials/hcp-vault-secrets-get-started).
 
 ### Installation
 Using pip
@@ -24,8 +25,12 @@ Using pip
 pip install hcp-vault-secrets-client
 ```
 
-#### Environment Variables
+#### Required Environment Variables
+These can be set as environment variables in a `.env` file or injected into the environment during runtime.
 - HCP_ORGANIZATION_ID
 - HCP_PROJECT_NAME
 - HCP_PROJECT_ID
 - HCP_ACCESS_TOKEN
+
+### Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
