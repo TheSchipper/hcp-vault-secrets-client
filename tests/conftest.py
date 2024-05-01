@@ -53,4 +53,4 @@ def pytest_configure(config):
     """Pytest configuration hook."""
     logging.config.dictConfig(LOGGING_CONFIG)
     pytest.logger = logging.getLogger()
-    pytest.logger.debug(config)
+    pytest.logger.debug(f"Logging configuration is set. {LOGGING_CONFIG}")

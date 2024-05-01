@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'hcp-vault-secrets-client'
-#copyright = '2024, Sean Humes'
-author = 'Sean Humes'
-release = '0.0.1'
+project = "hcp-vault-secrets-client"
+copyright = '2024, Sean Humes'
+author = "Sean Humes"
+release = "0.0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -20,9 +20,10 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
     "sphinx.ext.githubpages",
+    "sphinx_copybutton"
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
 
 # Automatically extract typehints when specified and place them in
@@ -33,5 +34,5 @@ autodoc_typehints = "description"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'haiku'
-html_static_path = ['_static']
+html_theme = "haiku"
+html_static_path = ["_static"]

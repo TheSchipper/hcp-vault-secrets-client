@@ -1,3 +1,9 @@
 *.idea
 __pycache__
 .env
+.venv
+*.log
+.coverage
+*.xml
+*.egg-info
+.tox

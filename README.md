@@ -5,6 +5,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12-blue)<br />
 ![workflow](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/ci.yml/badge.svg)
+![workflow](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/cd.yml/badge.svg)
 [![Super-Linter](https://github.com/TheSchipper/hcp-vault-secrets-client/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=TheSchipper_hcp-vault-secrets-client&metric=coverage)](https://sonarcloud.io/summary/new_code?id=TheSchipper_hcp-vault-secrets-client)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TheSchipper_hcp-vault-secrets-client&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TheSchipper_hcp-vault-secrets-client)
@@ -33,4 +34,6 @@ These can be set as environment variables in a `.env` file or injected into the 
 - HCP_ACCESS_TOKEN
 
 ### Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome. Please review the
+[contributing guide](https://theschipper.github.io/hcp-vault-secrets-client/contributing.html) first before making a
+pull request.

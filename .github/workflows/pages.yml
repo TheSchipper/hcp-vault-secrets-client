@@ -4,7 +4,7 @@ name: Deploy Sphinx Documentation
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "initial"]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
 
       - name: Setup Sphinx
         run: |
-          pip install -U sphinx
+          pip install -U sphinx sphinx-copybutton
 
       - name: Install dependencies
         run: |
